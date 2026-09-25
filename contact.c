@@ -3,9 +3,9 @@
 #include <string.h>
 #include "contact.h"
 #include "file.h"
-#include "populate.h"
+//#include "populate.h"
 
-void listContacts(AddressBook *addressBook, int sortCriteria) 
+void listContacts(AddressBook *addressBook) 
 {
     // Sort contacts based on the choosen criteria
     
@@ -27,6 +27,12 @@ void saveAndExit(AddressBook *addressBook) {
 void createContact(AddressBook *addressBook)
 {
 	/* Define the logic to create a Contacts */
+    while()
+    printf("Enter the name of the contact: ");
+    scanf(" %[^\n]", (addressBook+addressBook->contactCount)->addressBook->contacts[addressBook->contactCount]->name);
+    printf("Enter the phone number of the contact: ");
+    printf("Enter the email of the contact: ");
+    addressBook->contactCount++;
     
 }
 

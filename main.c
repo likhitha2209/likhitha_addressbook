@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include "contact.h"
 
-int main() {
+int main() 
+{
     int choice;
     AddressBook addressBook;
     initialize(&addressBook); // Initialize the address book
 
-    do {
+    do 
+    {
         printf("\nAddress Book Menu:\n");
         printf("1. Create contact\n");
         printf("2. Search contact\n");
@@ -18,7 +20,8 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
         
-        switch (choice) {
+        switch (choice) 
+        {
             case 1:
                 createContact(&addressBook);
                 break;
@@ -32,7 +35,7 @@ int main() {
                 deleteContact(&addressBook);
                 break;
             case 5:          
-                listContacts(&addressBook, sortChoice);
+                listContacts(&addressBook);
                 break;
             case 6:
                 printf("Saving...\n");
