@@ -10,7 +10,8 @@ void name(AddressBook *addressBook);
 void phone(AddressBook *addressBook);
 void email(AddressBook *addressBook);
 int search(AddressBook *addressBook);
-char delete[100];
+void delete(AddressBook *addressBook);
+char deletearrray[100];
 
 
 void listContacts(AddressBook *addressBook) 
@@ -79,7 +80,7 @@ void initialize(AddressBook *addressBook) {
     addressBook->contactCount = 0;
     
     // Load contacts from file during initialization (After files)
-    loadContactsFromF++ile(addressBook);
+    loadContactsFromFile(addressBook);
 }
 
 void saveAndExit(AddressBook *addressBook) {
@@ -91,9 +92,11 @@ void saveAndExit(AddressBook *addressBook) {
 void createContact(AddressBook *addressBook)
 {
 	/* Define the logic to create a Contacts */
-    
+    printf("Enter the name: ");
     name(addressBook);
+    printf("Enter the phone number: ");
     phone(addressBook);
+    printf("Enter the email: ");
     email(addressBook);    
     addressBook->contactCount++;
 }
@@ -108,14 +111,35 @@ void editContact(AddressBook *addressBook)
 {
 	/* Define the logic for Editcontact */
     int criteria;
+    int choice;
+    int present;
     printf("search based on:\n1. Name\n2. Phone\n3. Email\nEnter your choice: ");
     scanf("%d", &criteria);
+
+    present=search(addressBook);
+    if(present == 0)
+    {
+        return;
+    }
+
+    for (int i = 0; i < present; i++)
+    {
+        int index = deletearrray[i];
+
+        printf("\n%d,\n", i + 1);
+        printf("Name  : %s\n", addressBook->contacts[index].name);
+        printf("Phone : %s\n", addressBook->contacts[index].phone);
+        printf("Email : %s\n", addressBook->contacts[index].email);
+    }
+
+
     switch (criteria)
     {
     case 1:
-        int choice;
+        choice;
         printf("Enter the name to search: ");
         //delete logic
+        
         printf("Edit the contact details:\n1. Name\n2. Phone\n3. Email\nEnter your choice: ");
         scanf("%d", &choice);
         switch (choice)
@@ -123,26 +147,28 @@ void editContact(AddressBook *addressBook)
         case 1:
             printf("Enter the name to edit: ");
             //validation
-            
+            name(addressBook);
             /* code */
             break;
         case 2:
             printf("Enter the phone to edit: ");
             //validate
+            phone(addressBook);
             /* code */
             break;
         case 3:
             printf("Enter the email to edit: ");
             //validate
-            /* code */
+            email(addressBook);
+            
             break;
         
-        default:
+        default:  printf("Invalid choice!\n");
             break;
         }
         break;
     
-    default:
+    default: printf("Invalid choice!\n");
         break;
     }
 }
@@ -150,15 +176,48 @@ void editContact(AddressBook *addressBook)
 void deleteContact(AddressBook *addressBook)
 {
 	/* Define the logic for deletecontact */
-    int result=search(addressBook);   // found++ value is stored in result , index for the array delete
-    //printf("%d\n",result);
-    for(int i=0;i<result;i++)
+    delete(addressBook);    
+}
+
+
+// delete
+
+void delete(AddressBook *addressBook)
+{
+    int index;
+    int present=search(addressBook);   // found++ value is stored in result , index for the array delete
+
+    if(present == 0)
     {
-        printf(" array elements are: %d ",delete[i]);
+        return;
+    }
+
+    for (int i = 0; i < present; i++)
+    {
+        int index = deletearrray[i];
+
+        printf("\n%d.\n", i + 1);
+        printf("Name  : %s\n", addressBook->contacts[index].name);
+        printf("Phone : %s\n", addressBook->contacts[index].phone);
+        printf("Email : %s\n", addressBook->contacts[index].email);
     }
     
-    
+    int choice;
+    printf("Enter a contact number from 1 to %d to delete: \n",present);
+    scanf("%d",&choice);
+
+    index=deletearrray[choice-1];
+
+    for (int i = index; i < addressBook->contactCount - 1; i++)
+    {
+        addressBook->contacts[i] = addressBook->contacts[i + 1];
+    }
+
+    addressBook->contactCount--;
+
+    printf("Contact deleted...!!!\n");
 }
+
 
 // search 
 
@@ -185,7 +244,7 @@ int search(AddressBook *addressBook)
                 printf("\nPhone : %s", addressBook->contacts[i].phone);
                 printf("\nEmail : %s\n", addressBook->contacts[i].email);
                 // take the backup of curr index(contact)
-                delete[found]=i;
+                deletearrray[found]=i;
                 printf(" ");
                 found++;
                 // return 1;
@@ -203,6 +262,7 @@ int search(AddressBook *addressBook)
                 printf("\nName  : %s", addressBook->contacts[i].name);
                 printf("\nPhone : %s", addressBook->contacts[i].phone);
                 printf("\nEmail : %s\n", addressBook->contacts[i].email);
+                deletearrray[found]=i;
                 found++;
             }
         }
@@ -218,6 +278,7 @@ int search(AddressBook *addressBook)
                 printf("\nName  : %s", addressBook->contacts[i].name);
                 printf("\nPhone : %s", addressBook->contacts[i].phone);
                 printf("\nEmail : %s\n", addressBook->contacts[i].email);
+                deletearrray[found]=i;
                 found++;
                 
             }
@@ -240,7 +301,6 @@ int search(AddressBook *addressBook)
 void name(AddressBook *addressBook)
 {
     int found=1;
-    printf("Enter the name: ");
     while(found)
     {
         found=0;
@@ -273,7 +333,6 @@ void name(AddressBook *addressBook)
 void phone(AddressBook *addressBook)
 {
     int found =1;
-    printf("Enter the phone number: ");
     while(found)
     {
         found=0;
@@ -323,7 +382,6 @@ void phone(AddressBook *addressBook)
 void email(AddressBook *addressBook)
 {
     int found=1;
-    printf("Enter the email: ");
     while (found)
     {
         found=0;
